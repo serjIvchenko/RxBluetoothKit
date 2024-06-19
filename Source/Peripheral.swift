@@ -402,15 +402,17 @@ public class Peripheral {
             .filter { characteristic != nil ? ($0.0 == characteristic!.characteristic) : true }
             .map { [weak self] (cbCharacteristic, error) -> Characteristic in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
-                let characteristic = characteristic ?? Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf)
+                guard let characteristic = characteristic ?? Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf) else {
+                    throw BluetoothError.characteristicCreationFailed
+                }
                 if let error = error {
-                    guard let characteristic = characteristic else { return }
                     throw BluetoothError.characteristicWriteFailed(characteristic, error)
                 }
                 return characteristic
             }
         return ensureValidPeripheralState(for: observable)
     }
+
 
     /// The maximum amount of data, in bytes, that can be sent to a characteristic in a single write.
     /// - parameter type: Type of write operation. Possible values: `.withResponse`, `.withoutResponse`
@@ -499,15 +501,17 @@ public class Peripheral {
             .filter { characteristic != nil ? ($0.0 == characteristic!.characteristic) : true }
             .map { [weak self] (cbCharacteristic, error) -> Characteristic in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
-                let characteristic = characteristic ?? Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf)
+                guard let characteristic = characteristic ?? Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf) else {
+                    throw BluetoothError.characteristicCreationFailed
+                }
                 if let error = error {
-                    guard let characteristic = characteristic else { return }
                     throw BluetoothError.characteristicReadFailed(characteristic, error)
                 }
                 return characteristic
             }
         return ensureValidPeripheralState(for: observable)
     }
+
 
     /// Function that triggers read of current value of the `Characteristic` instance.
     /// Read is called after subscription to `Observable` is made.
@@ -572,12 +576,12 @@ public class Peripheral {
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
                 let characteristic = Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf)
                 if let error = error {
-                    guard let characteristic = characteristic else { return }
                     throw BluetoothError.characteristicSetNotifyValueFailed(characteristic, error)
                 }
                 return characteristic
-        }
+            }
     }
+
 
     // MARK: Descriptors
 
@@ -640,15 +644,15 @@ public class Peripheral {
             .filter { descriptor != nil ? ($0.0 == descriptor!.descriptor) : true }
             .map { [weak self] (cbDescriptor, error) -> Descriptor in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
-                let descriptor = descriptor ?? Descriptor(descriptor: cbDescriptor, peripheral: strongSelf)
+                let descriptorToUse = descriptor ?? Descriptor(descriptor: cbDescriptor, peripheral: strongSelf)
                 if let error = error {
-                    guard let descriptor = descriptor else { return }
-                    throw BluetoothError.descriptorWriteFailed(descriptor, error)
+                    throw BluetoothError.descriptorWriteFailed(descriptorToUse, error)
                 }
-                return descriptor
+                return descriptorToUse
             }
         return ensureValidPeripheralState(for: observable)
     }
+
 
     /// Function that allow to observe value updates for `Descriptor` instance.
     /// - Parameter descriptor: Optional `Descriptor` of which value changes should be observed. When not specified it will observe for any `Descriptor`.
@@ -670,15 +674,15 @@ public class Peripheral {
             .filter { descriptor != nil ? ($0.0 == descriptor!.descriptor) : true }
             .map { [weak self] (cbDescriptor, error) -> Descriptor in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
-                let descriptor = descriptor ?? Descriptor(descriptor: cbDescriptor, peripheral: strongSelf)
+                let descriptorToUse = descriptor ?? Descriptor(descriptor: cbDescriptor, peripheral: strongSelf)
                 if let error = error {
-                    guard let descriptor = descriptor else { return }
-                    throw BluetoothError.descriptorReadFailed(descriptor, error)
+                    throw BluetoothError.descriptorReadFailed(descriptorToUse, error)
                 }
-                return descriptor
+                return descriptorToUse
             }
         return ensureValidPeripheralState(for: observable)
     }
+
 
     /// Function that triggers read of current value of the `Descriptor` instance.
     /// Read is called after subscription to `Observable` is made.
