@@ -7,10 +7,10 @@ Pod::Spec.new do |s|
   RxBluetoothKit is lightweight and easy to use Rx support for CoreBluetooth.
                        DESC
 
-  s.homepage         = "https://github.com/polidea/RxBluetoothKit"
+  s.homepage         = "https://github.com/serjIvchenko/RxBluetoothKit"
   s.license          = 'Apache License, Version 2.0.'
   s.author           = { "Przemysław Lenart" => "przemek.lenart@polidea.com", "Kacper Harasim" => "kacper.harasim@polidea.com", "Michał Laskowski" => "michal.laskowski@polidea.com", "Paweł Janeczek" => "pawel.janeczek@polidea.com", "Bartosz Stelmaszuk" => "bartosz.stelmaszuk@polidea.com" }
-  s.source           = { :git => "https://github.com/polidea/RxBluetoothKit.git", :tag => s.version.to_s }
+  s.source           = { :git => "https://github.com/serjIvchenko/RxBluetoothKit.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/polidea'
 
   s.ios.deployment_target = '9.0'
