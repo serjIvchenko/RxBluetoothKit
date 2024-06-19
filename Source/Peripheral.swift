@@ -402,9 +402,7 @@ public class Peripheral {
             .filter { characteristic != nil ? ($0.0 == characteristic!.characteristic) : true }
             .map { [weak self] (cbCharacteristic, error) -> Characteristic in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
-                guard let characteristic = characteristic ?? Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf) else {
-                    throw BluetoothError.characteristicCreationFailed
-                }
+                guard let characteristic = characteristic ?? Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf) else { }
                 if let error = error {
                     throw BluetoothError.characteristicWriteFailed(characteristic, error)
                 }
@@ -501,9 +499,7 @@ public class Peripheral {
             .filter { characteristic != nil ? ($0.0 == characteristic!.characteristic) : true }
             .map { [weak self] (cbCharacteristic, error) -> Characteristic in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
-                guard let characteristic = characteristic ?? Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf) else {
-                    throw BluetoothError.characteristicCreationFailed
-                }
+                guard let characteristic = characteristic ?? Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf) else { }
                 if let error = error {
                     throw BluetoothError.characteristicReadFailed(characteristic, error)
                 }
