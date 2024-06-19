@@ -404,6 +404,7 @@ public class Peripheral {
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
                 let characteristic = characteristic ?? Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf)
                 if let error = error {
+                    guard let characteristic = characteristic else { return }
                     throw BluetoothError.characteristicWriteFailed(characteristic, error)
                 }
                 return characteristic
@@ -500,6 +501,7 @@ public class Peripheral {
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
                 let characteristic = characteristic ?? Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf)
                 if let error = error {
+                    guard let characteristic = characteristic else { return }
                     throw BluetoothError.characteristicReadFailed(characteristic, error)
                 }
                 return characteristic
@@ -570,6 +572,7 @@ public class Peripheral {
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
                 let characteristic = Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf)
                 if let error = error {
+                    guard let characteristic = characteristic else { return }
                     throw BluetoothError.characteristicSetNotifyValueFailed(characteristic, error)
                 }
                 return characteristic
@@ -639,6 +642,7 @@ public class Peripheral {
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
                 let descriptor = descriptor ?? Descriptor(descriptor: cbDescriptor, peripheral: strongSelf)
                 if let error = error {
+                    guard let descriptor = descriptor else { return }
                     throw BluetoothError.descriptorWriteFailed(descriptor, error)
                 }
                 return descriptor
@@ -668,6 +672,7 @@ public class Peripheral {
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
                 let descriptor = descriptor ?? Descriptor(descriptor: cbDescriptor, peripheral: strongSelf)
                 if let error = error {
+                    guard let descriptor = descriptor else { return }
                     throw BluetoothError.descriptorReadFailed(descriptor, error)
                 }
                 return descriptor
