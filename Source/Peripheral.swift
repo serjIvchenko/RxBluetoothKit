@@ -570,13 +570,14 @@ public class Peripheral {
             .filter { $0.0 == characteristic.characteristic }
             .map { [weak self] (cbCharacteristic, error) -> Characteristic in
                 guard let strongSelf = self else { throw BluetoothError.destroyed }
-                let characteristic = Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf)
+                let updatedCharacteristic = Characteristic(characteristic: cbCharacteristic, peripheral: strongSelf)
                 if let error = error {
-                    throw BluetoothError.characteristicSetNotifyValueFailed(characteristic, error)
+                    throw BluetoothError.characteristicSetNotifyValueFailed(updatedCharacteristic, error)
                 }
-                return characteristic
+                return updatedCharacteristic
             }
     }
+
 
 
     // MARK: Descriptors
@@ -650,6 +651,7 @@ public class Peripheral {
     }
 
 
+
     /// Function that allow to observe value updates for `Descriptor` instance.
     /// - Parameter descriptor: Optional `Descriptor` of which value changes should be observed. When not specified it will observe for any `Descriptor`.
     /// - Returns: Observable that emits `next` with `Descriptor` instance every time when value has changed.
@@ -678,6 +680,7 @@ public class Peripheral {
             }
         return ensureValidPeripheralState(for: observable)
     }
+
 
 
     /// Function that triggers read of current value of the `Descriptor` instance.
